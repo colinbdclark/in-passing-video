@@ -6,91 +6,47 @@
     fluid.defaults("colin.flickeringLeaf", {
         gradeNames: ["aconite.videoCompositor", "autoInit"],
 
+        stageBackgroundColor: {
+            r: 0.0,
+            g: 1.0,
+            b: 1.0,
+            a: 1.0
+        },
+
         components: {
             glRenderer: {
                 type: "colin.flickeringLeaf.glRenderer"
             },
 
             top: {
-                type: "colin.flickeringLeaf.topSequencer"
+                type: "colin.flickeringLeaf.topLayer"
             },
 
             bottom: {
-                type: "colin.flickeringLeaf.bottomSequencer"
+                type: "colin.flickeringLeaf.bottomLayer"
             }
         }
     });
 
-    fluid.defaults("colin.flickeringLeaf.topSequencer", {
-        gradeNames: ["aconite.clipSequencer", "autoInit"],
+    fluid.defaults("colin.flickeringLeaf.topLayer", {
+        gradeNames: ["aconite.videoCompositor.topLayer", "autoInit"],
 
-        clipSequence: [
-            {
-                url: "videos/1.webm",
-                inTime: 0,
-                duration: (14 * 60) + 56
-            },
-            {
-                url: "videos/4.webm",
-                inTime: 0,
-                duration: (14 * 60) + 56
-
-            }
-        ],
-
-        // TODO: Having to specify this is obviously a bug.
         components: {
-            layer: {
+            source: {
                 options: {
-                    components: {
-                        source: {
-                            options: {
-                                url: "{topSequencer}.options.clipSequence.0.url"
-                            }
-                        }
-                    }
-                }
-            },
-
-            preRoller: {
-                options: {
-                    url: "{topSequencer}.options.clipSequence.1.url"
+                    url: "videos/1.webm"
                 }
             }
         }
     });
 
-    fluid.defaults("colin.flickeringLeaf.bottomSequencer", {
-        gradeNames: ["aconite.clipSequencer", "autoInit"],
-
-        clipSequence: [
-            {
-                url: "videos/2.webm",
-                inTime: 0,
-                duration: (14 * 60) + 56
-            },
-            {
-                url: "videos/5.webm",
-                inTime: 0,
-                duration: (14 * 60) + 56
-            }
-        ],
+    fluid.defaults("colin.flickeringLeaf.bottomLayer", {
+        gradeNames: ["aconite.videoCompositor.bottomLayer", "autoInit"],
 
         components: {
-            layer: {
+            source: {
                 options: {
-                    components: {
-                        source: {
-                            options: {
-                                url: "{bottomSequencer}.options.clipSequence.0.url"
-                            }
-                        }
-                    }
-                }
-            },
-            preRoller: {
-                options: {
-                    url: "{bottomSequencer}.options.clipSequence.1.url"
+                    url: "videos/2.webm"
                 }
             }
         }
