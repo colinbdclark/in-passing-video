@@ -6,13 +6,6 @@
     fluid.defaults("colin.flickeringLeaf", {
         gradeNames: ["aconite.videoCompositor", "autoInit"],
 
-        stageBackgroundColor: {
-            r: 0.0,
-            g: 1.0,
-            b: 1.0,
-            a: 1.0
-        },
-
         components: {
             glRenderer: {
                 type: "colin.flickeringLeaf.glRenderer"
@@ -67,27 +60,23 @@
         },
 
         uniforms: {
-            static: {
-                topSampler: {
-                    type: "i",
-                    value: 0
-                },
-                bottomSampler: {
-                    type: "i",
-                    value: 1
-                },
-                threshold: {
-                    type: "f",
-                    value: 0.01
-                },
-                textureSize: {
-                    type: "f",
-                    value: [
-                        "{top}.layer.source.element.videoWidth",
-                        "{bottom}.layer.source.element.videoHeight"
-                    ]
-                }
-
+            topSampler: {
+                type: "i",
+                value: 0
+            },
+            bottomSampler: {
+                type: "i",
+                value: 1
+            },
+            threshold: {
+                type: "f",
+                value: 0.9
+            },
+            textureSize: {
+                type: "f",
+                value: [
+                    1280, 720
+                ]
             }
         }
     });
