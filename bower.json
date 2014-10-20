@@ -1,0 +1,10 @@
+{
+    "name": "flickering-leaf",
+    "version": "1.0.0",
+    "ignore": [],
+    "dependencies": {
+        "aconite": "colinbdclark/aconite",
+        "flocking": "colinbdclark/flocking"
+    },
+    "devDependencies": {}
+}

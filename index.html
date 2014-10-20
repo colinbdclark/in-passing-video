@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>We Fade and Flicker</title>
+
+        <link rel="stylesheet" href="bower_components/aconite/src/ui/css/playButton.css" type="text/css" />
+        <link rel="stylesheet" href="src/flickering-leaf.css" type="text/css" />
+
+        <script src="bower_components/flocking/dist/flocking-all.js"></script>
+
+        <script src="bower_components/aconite/src/core.js"></script>
+        <script src="bower_components/aconite/src/glComponent.js"></script>
+        <script src="bower_components/aconite/src/compositables.js"></script>
+        <script src="bower_components/aconite/src/clip-sequencers.js"></script>
+        <script src="bower_components/aconite/src/animation.js"></script>
+        <script src="bower_components/aconite/src/ui/js/playButton.js"></script>
+
+        <script src="src/flickering-leaf.js"></script>
+
+    </head>
+    <body>
+        <div class="video-container">
+            <img class="aconite-animator-play" src="bower_components/aconite/src/ui/images/play_overlay.png"></img>
+            <canvas class="aconite-animator-canvas" width="1280" height="720" />
+        </div>
+
+        <script>
+            colin.flickeringLeaf(".video-container");
+        </script>
+    </body>
+</html>
