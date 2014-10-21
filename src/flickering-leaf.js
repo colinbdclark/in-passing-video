@@ -6,6 +6,20 @@
     fluid.defaults("colin.flickeringLeaf", {
         gradeNames: ["aconite.videoCompositor", "autoInit"],
 
+        model: {
+            time: Date.now(),
+            sparkThreshold: "{thresholdSynth}.options.synthDef.start"
+        },
+
+        uniformModelMap: {
+            time: "time",
+            sparkThreshold: "sparkThreshold"
+        },
+
+        invokers: {
+            updateModel: "colin.flickeringLeaf.updateModel({that}.applier, {thresholdSynth}, {seedSynth})"
+        },
+
         components: {
             glRenderer: {
                 type: "colin.flickeringLeaf.glRenderer"
@@ -17,6 +31,57 @@
 
             bottom: {
                 type: "colin.flickeringLeaf.bottomLayer"
+            },
+
+            thresholdSynth: {
+                type: "flock.synth.frameRate",
+                options: {
+                    synthDef: {
+                        ugen: "flock.ugen.line",
+                        start: -0.0293,
+                        end: 1.0,
+                        duration: (12 * 60) + 30
+                    },
+
+                    fps: 60
+                }
+            },
+
+            // TODO: Slow this down somewhat over the course of the video.
+            seedSynth: {
+                type: "flock.synth.frameRate",
+                options: {
+                    synthDef: {
+                        id: "seedSine",
+                        ugen: "flock.ugen.lfNoise",
+                        freq: {
+                            ugen: "flock.ugen.sinOsc",
+                            phase: -0.5,
+                            freq: {
+                                ugen: "flock.ugen.lfNoise",
+                                options: {
+                                    interpolation: "linear",
+                                },
+                                mul: 1/30,
+                                add: 1/30
+                            },
+                            mul: 20,
+                            add: 40
+                        },
+                        mul: 0.5,
+                        add: 0.5,
+                    },
+
+                    fps: 60
+                }
+            },
+
+            playButton: {
+                options: {
+                    selectors: {
+                        fullScreen: "{flickeringLeaf}.options.selectors.stage"
+                    }
+                }
             }
         }
     });
@@ -27,7 +92,7 @@
         components: {
             source: {
                 options: {
-                    url: "videos/1.webm"
+                    url: "videos/720-h264/1.m4v#t=00:01:55,00:14:53"
                 }
             }
         }
@@ -39,7 +104,7 @@
         components: {
             source: {
                 options: {
-                    url: "videos/2.webm"
+                    url: "videos/720-h264/2.m4v#t=00:01:55,00:14:53"
                 }
             }
         }
@@ -68,17 +133,25 @@
                 type: "i",
                 value: 1
             },
-            threshold: {
+            sparkThreshold: {
                 type: "f",
-                value: 0.9
+                value: 0.04
             },
             textureSize: {
                 type: "f",
                 value: [
-                    1280, 720
+                    "{flickeringLeaf}.dom.stage.0.width", "{flickeringLeaf}.dom.stage.0.height"
                 ]
+            },
+            time: {
+                type: "f",
+                value: Date.now()
             }
         }
     });
 
+    colin.flickeringLeaf.updateModel = function (applier, thresholdSynth, seedSynth) {
+        applier.change("time", seedSynth.value());
+        applier.change("sparkThreshold", thresholdSynth.value());
+    };
 }());
