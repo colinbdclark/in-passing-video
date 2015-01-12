@@ -65,8 +65,18 @@
                                 mul: 1/30,
                                 add: 1/30
                             },
-                            mul: 20,
-                            add: 40
+                            mul: {
+                                ugen: "flock.ugen.line",
+                                duration: (12 * 60) + 30,
+                                start: 20,
+                                end: 7.5
+                            },
+                            add: {
+                                ugen: "flock.ugen.line",
+                                duration: (12 * 60) + 30,
+                                start: 40,
+                                end: 7.5
+                            }
                         },
                         mul: 0.5,
                         add: 0.5,
