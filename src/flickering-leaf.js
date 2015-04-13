@@ -102,7 +102,7 @@
         components: {
             source: {
                 options: {
-                    url: "videos/720-h264/1.m4v#t=00:01:55,00:14:53"
+                    url: "videos/1080-h264/1.m4v#t=00:01:55,00:14:53"
                 }
             }
         }
@@ -114,7 +114,7 @@
         components: {
             source: {
                 options: {
-                    url: "videos/720-h264/2.m4v#t=00:01:55,00:14:53"
+                    url: "videos/1080-h264/2.m4v#t=00:01:55,00:14:53"
                 }
             }
         }
@@ -161,6 +161,7 @@
     });
 
     colin.flickeringLeaf.updateModel = function (applier, thresholdSynth, seedSynth) {
+        // TODO: With the refactoring of flock.synth, this can now be done declaratively.
         applier.change("time", seedSynth.value());
         applier.change("sparkThreshold", thresholdSynth.value());
     };

@@ -22,8 +22,10 @@
     <body>
         <div class="video-container">
             <img class="aconite-animator-play" src="bower_components/aconite/src/ui/images/play_overlay.png"></img>
-            <canvas class="aconite-animator-canvas" width="1280" height="790" />
+            <canvas class="aconite-animator-canvas" width="1920" height="1080" />
         </div>
+
+        <p class="aconite-fps-display"><span id="aconite-fps">0</span> fps</p>
 
         <script>
             var leaf = colin.flickeringLeaf(".video-container");
