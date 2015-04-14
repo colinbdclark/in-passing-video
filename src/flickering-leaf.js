@@ -46,7 +46,7 @@
                         ugen: "flock.ugen.line",
                         start: -0.0293,
                         end: 1.0,
-                        duration: (12 * 60) + 30
+                        duration: (13 * 60) + 59
                     },
 
                     fps: 60
@@ -61,7 +61,7 @@
                         id: "seedSine",
                         ugen: "flock.ugen.lfNoise",
                         freq: {
-                            ugen: "flock.ugen.sinOsc",
+                            ugen: "flock.ugen.triOsc",
                             phase: -0.5,
                             freq: {
                                 ugen: "flock.ugen.lfNoise",
@@ -73,13 +73,13 @@
                             },
                             mul: {
                                 ugen: "flock.ugen.line",
-                                duration: (12 * 60) + 30,
+                                duration: (13 * 60) + 59,
                                 start: 20,
                                 end: 7.5
                             },
                             add: {
                                 ugen: "flock.ugen.line",
-                                duration: (12 * 60) + 30,
+                                duration: (13 * 60) + 59,
                                 start: 40,
                                 end: 7.5
                             }
@@ -113,8 +113,18 @@
             clipSequence: [
                 {
                     url: "videos/1080-h264/1.m4v",
-                    inTime: (1 * 60) + 55,
-                    duration: (12 * 60) + 58
+                    inTime: "00:01:55",
+                    outTime: "00:14:54"
+                },
+                {
+                    url: "videos/1080-h264/3.m4v",
+                    inTime: 0,
+                    outTime: "00:03:33"
+                },
+                {
+                    url: "videos/1080-h264/4.m4v",
+                    inTime: 0,
+                    duration: "00:02:48"
                 }
             ]
         },
@@ -133,8 +143,18 @@
             clipSequence: [
                 {
                     url: "videos/1080-h264/2.m4v",
-                    inTime: (1 * 60) + 55,
-                    duration: (12 * 60) + 58
+                    inTime: "00:01:55",
+                    outTime: "00:14:54"
+                },
+                {
+                    url: "videos/1080-h264/3.m4v",
+                    inTime: 0,
+                    outTime: "00:03:33"
+                },
+                {
+                    url: "videos/1080-h264/5.m4v",
+                    inTime: 0,
+                    duration: "00:02:48"
                 }
             ]
         },
