@@ -4,7 +4,7 @@
     fluid.registerNamespace("colin");
 
     fluid.defaults("colin.flickeringLeaf", {
-        gradeNames: ["aconite.videoCompositor", "autoInit"],
+        gradeNames: ["aconite.videoSequenceCompositor", "autoInit"],
 
         model: {
             time: Date.now(),
@@ -32,11 +32,11 @@
             },
 
             top: {
-                type: "colin.flickeringLeaf.topLayer"
+                type: "colin.flickeringLeaf.topSequencer"
             },
 
             bottom: {
-                type: "colin.flickeringLeaf.bottomLayer"
+                type: "colin.flickeringLeaf.bottomSequencer"
             },
 
             thresholdSynth: {
@@ -93,7 +93,6 @@
             },
 
             playButton: {
-                // TODO: Why is this here?
                 options: {
                     selectors: {
                         fullScreen: "{flickeringLeaf}.options.selectors.stage"
@@ -107,29 +106,46 @@
         }
     });
 
-    fluid.defaults("colin.flickeringLeaf.topLayer", {
-        gradeNames: ["aconite.videoCompositor.topLayer", "autoInit"],
+    fluid.defaults("colin.flickeringLeaf.topSequencer", {
+        gradeNames: ["aconite.clipSequencer.static", "autoInit"],
+
+        model: {
+            clipSequence: [
+                {
+                    url: "videos/1080-h264/1.m4v",
+                    inTime: (1 * 60) + 55,
+                    duration: (12 * 60) + 58
+                }
+            ]
+        },
 
         components: {
-            source: {
-                options: {
-                    url: "videos/1080-h264/1.m4v#t=00:01:55,00:14:53"
-                }
+            layer: {
+                type: "aconite.videoCompositor.topLayer"
             }
         }
     });
 
-    fluid.defaults("colin.flickeringLeaf.bottomLayer", {
-        gradeNames: ["aconite.videoCompositor.bottomLayer", "autoInit"],
+    fluid.defaults("colin.flickeringLeaf.bottomSequencer", {
+        gradeNames: ["aconite.clipSequencer.static", "autoInit"],
+
+        model: {
+            clipSequence: [
+                {
+                    url: "videos/1080-h264/2.m4v",
+                    inTime: (1 * 60) + 55,
+                    duration: (12 * 60) + 58
+                }
+            ]
+        },
 
         components: {
-            source: {
-                options: {
-                    url: "videos/1080-h264/2.m4v#t=00:01:55,00:14:53"
-                }
+            layer: {
+                type: "aconite.videoCompositor.bottomLayer"
             }
         }
     });
+
 
     fluid.defaults("colin.flickeringLeaf.glRenderer", {
         gradeNames: ["aconite.glComponent", "autoInit"],
