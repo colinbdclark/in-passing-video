@@ -4,7 +4,7 @@
     "ignore": [],
     "dependencies": {
         "aconite": "colinbdclark/aconite",
-        "flocking": "colinbdclark/flocking"
+        "flocking": "0.1.1"
     },
     "devDependencies": {}
 }

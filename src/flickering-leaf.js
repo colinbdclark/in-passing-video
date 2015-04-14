@@ -21,6 +21,12 @@
         },
 
         components: {
+            // TODO: Remove when not debugging.
+            frameCounter: {
+                type: "aconite.animationClock.frameCounter",
+                container: "{that}.options.selectors.fpsCounter"
+            },
+
             glRenderer: {
                 type: "colin.flickeringLeaf.glRenderer"
             },
@@ -87,12 +93,17 @@
             },
 
             playButton: {
+                // TODO: Why is this here?
                 options: {
                     selectors: {
                         fullScreen: "{flickeringLeaf}.options.selectors.stage"
                     }
                 }
             }
+        },
+
+        selectors: {
+            fpsCounter: ".aconite-fps-display"
         }
     });
 
