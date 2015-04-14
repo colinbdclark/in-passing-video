@@ -40,56 +40,11 @@
             },
 
             thresholdSynth: {
-                type: "flock.synth.frameRate",
-                options: {
-                    synthDef: {
-                        ugen: "flock.ugen.line",
-                        start: -0.0293,
-                        end: 1.0,
-                        duration: (13 * 60) + 59
-                    },
-
-                    fps: 60
-                }
+                type: "colin.flickeringLeaf.thresholdSynth"
             },
 
-            // TODO: Slow this down somewhat over the course of the video.
             seedSynth: {
-                type: "flock.synth.frameRate",
-                options: {
-                    synthDef: {
-                        id: "seedSine",
-                        ugen: "flock.ugen.lfNoise",
-                        freq: {
-                            ugen: "flock.ugen.triOsc",
-                            phase: -0.5,
-                            freq: {
-                                ugen: "flock.ugen.lfNoise",
-                                options: {
-                                    interpolation: "linear",
-                                },
-                                mul: 1/30,
-                                add: 1/30
-                            },
-                            mul: {
-                                ugen: "flock.ugen.line",
-                                duration: (13 * 60) + 59,
-                                start: 20,
-                                end: 7.5
-                            },
-                            add: {
-                                ugen: "flock.ugen.line",
-                                duration: (13 * 60) + 59,
-                                start: 40,
-                                end: 7.5
-                            }
-                        },
-                        mul: 0.5,
-                        add: 0.5,
-                    },
-
-                    fps: 60
-                }
+                type: "colin.flickeringLeaf.seedSynth"
             },
 
             playButton: {
@@ -135,6 +90,60 @@
             }
         }
     });
+
+
+    fluid.defaults("colin.flickeringLeaf.thresholdSynth", {
+        gradeNames: ["flock.synth.frameRate", "autoInit"],
+
+        fps: 60,
+
+        synthDef: {
+            ugen: "flock.ugen.line",
+            start: -0.0293,
+            end: 1.0,
+            duration: (14 * 60)
+        }
+    });
+
+
+    fluid.defaults("colin.flickeringLeaf.seedSynth", {
+        gradeNames: ["flock.synth.frameRate", "autoInit"],
+
+        fps: 60,
+
+        synthDef: {
+            id: "seedSine",
+            ugen: "flock.ugen.lfNoise",
+            freq: {
+                ugen: "flock.ugen.triOsc",
+                phase: -0.5,
+                freq: {
+                    // TODO: Slow this down somewhat over the course of the video.
+                    ugen: "flock.ugen.lfNoise",
+                    options: {
+                        interpolation: "linear",
+                    },
+                    mul: 1/30,
+                    add: 1/30
+                },
+                mul: {
+                    ugen: "flock.ugen.line",
+                    duration: (14 * 60),
+                    start: 20,
+                    end: 7.5
+                },
+                add: {
+                    ugen: "flock.ugen.line",
+                    duration: (14 * 60),
+                    start: 40,
+                    end: 7.5
+                }
+            },
+            mul: 0.5,
+            add: 0.5
+        }
+    });
+
 
     fluid.defaults("colin.flickeringLeaf.bottomSequencer", {
         gradeNames: ["aconite.clipSequencer.static", "autoInit"],
