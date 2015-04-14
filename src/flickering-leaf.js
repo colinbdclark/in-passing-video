@@ -56,40 +56,35 @@
             }
         },
 
+        listeners: {
+            onPlay: "colin.flickeringLeaf.scheduleChanges({top}, {thresholdSynth})"
+        },
+
         selectors: {
             fpsCounter: ".aconite-fps-display"
         }
     });
 
-    fluid.defaults("colin.flickeringLeaf.topSequencer", {
-        gradeNames: ["aconite.clipSequencer.static", "autoInit"],
 
-        model: {
-            clipSequence: [
-                {
-                    url: "videos/1080-h264/1.m4v",
-                    inTime: "00:01:55",
-                    outTime: "00:14:54"
-                },
-                {
-                    url: "videos/1080-h264/3.m4v",
-                    inTime: 0,
-                    outTime: "00:03:33"
-                },
-                {
-                    url: "videos/1080-h264/4.m4v",
-                    inTime: 0,
-                    duration: "00:02:48"
-                }
-            ]
-        },
+    colin.flickeringLeaf.scheduleChanges = function (top, thresholdSynth) {
+        var clipSequence = top.model.clipSequence;
 
-        components: {
-            layer: {
-                type: "aconite.videoCompositor.topLayer"
-            }
-        }
-    });
+        top.scheduler.once(clipSequence[0].duration, function () {
+            thresholdSynth.set({
+                "threshold.start": -1,
+                "threshold.end": -1,
+                "threshold.duration": clipSequence[1].duration
+            });
+        });
+
+        top.scheduler.once(clipSequence[0].duration + clipSequence[1].duration, function () {
+            thresholdSynth.set({
+                "threshold.start": -0.0293,
+                "threshold.end": 1.0,
+                "threshold.duration": clipSequence[2].duration - 20
+            });
+        });
+    };
 
 
     fluid.defaults("colin.flickeringLeaf.thresholdSynth", {
@@ -98,6 +93,7 @@
         fps: 60,
 
         synthDef: {
+            id: "threshold",
             ugen: "flock.ugen.line",
             start: -0.0293,
             end: 1.0,
@@ -123,24 +119,63 @@
                     options: {
                         interpolation: "linear",
                     },
-                    mul: 1/30,
-                    add: 1/30
+                    mul: {
+                        ugen: "flock.ugen.line",
+                        start: 1/30,
+                        end: 1/60
+                    },
+                    add: {
+                        ugen: "flock.ugen.line",
+                        start: 1/30,
+                        end: 1/60
+                    }
                 },
                 mul: {
                     ugen: "flock.ugen.line",
-                    duration: (14 * 60),
+                    duration: (14 * 60) + 53,
                     start: 20,
                     end: 7.5
                 },
                 add: {
                     ugen: "flock.ugen.line",
-                    duration: (14 * 60),
+                    duration: (14 * 60) + 53,
                     start: 40,
                     end: 7.5
                 }
             },
             mul: 0.5,
             add: 0.5
+        }
+    });
+
+
+    fluid.defaults("colin.flickeringLeaf.topSequencer", {
+        gradeNames: ["aconite.clipSequencer.static", "autoInit"],
+
+        model: {
+            clipSequence: [
+                {
+                    url: "videos/1080-h264/1.m4v",
+                    inTime: "00:01:55",
+                    outTime: "00:14:53"
+                },
+                {
+                    url: "videos/1080-h264/3.m4v",
+                    inTime: "00:00:01",
+                    outTime: "00:03:32"
+                },
+                {
+                    url: "videos/1080-h264/4.m4v",
+                    inTime: "00:00:01",
+                    outTime: "00:02:47"
+                }
+            ]
+        },
+
+        components: {
+            layer: {
+                type: "aconite.videoCompositor.topLayer"
+            }
         }
     });
 
@@ -153,17 +188,17 @@
                 {
                     url: "videos/1080-h264/2.m4v",
                     inTime: "00:01:55",
-                    outTime: "00:14:54"
+                    outTime: "00:14:53"
                 },
                 {
                     url: "videos/1080-h264/3.m4v",
-                    inTime: 0,
-                    outTime: "00:03:33"
+                    inTime: "00:00:01",
+                    outTime: "00:03:32"
                 },
                 {
                     url: "videos/1080-h264/5.m4v",
-                    inTime: 0,
-                    duration: "00:02:48"
+                    inTime: "00:00:01",
+                    outTime: "00:02:47"
                 }
             ]
         },
