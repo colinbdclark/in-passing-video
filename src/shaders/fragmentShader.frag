@@ -16,11 +16,11 @@ void main(void) {
     vec4 bottomFrag = texture2D(bottomSampler, coords);
     vec4 sub = topFrag - bottomFrag;
 
-    if (sub.r > 0.01 && sub.g > 0.01 && sub.b > 0.01) {
+    if (sub.r > 0.5 && sub.g > 0.5 && sub.b > 0.5) {
         gl_FragColor = topFrag;
     } else {
         float spark = rand(vec2(time) * coords);
-        if (spark > sparkThreshold || (topFrag.r > 0.6 && topFrag.g > 0.3 && topFrag.b > 0.3)) {
+        if (spark > sparkThreshold) {
             gl_FragColor = topFrag;
         } else {
             gl_FragColor = bottomFrag;

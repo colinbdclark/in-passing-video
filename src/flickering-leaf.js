@@ -1,6 +1,8 @@
 (function () {
     "use strict";
 
+    flock.init();
+
     fluid.registerNamespace("colin");
 
     fluid.defaults("colin.flickeringLeaf", {
@@ -47,6 +49,10 @@
                 type: "colin.flickeringLeaf.seedSynth"
             },
 
+            audioSynth: {
+                type: "colin.flickeringLeaf.audioSynth"
+            },
+
             playButton: {
                 options: {
                     selectors: {
@@ -57,7 +63,7 @@
         },
 
         listeners: {
-            onPlay: "colin.flickeringLeaf.scheduleChanges({top}, {thresholdSynth})"
+            onPlay: "colin.flickeringLeaf.scheduleChanges({top}, {thresholdSynth}, {audioSynth}, {seedSynth})"
         },
 
         selectors: {
@@ -65,8 +71,8 @@
         }
     });
 
-
-    colin.flickeringLeaf.scheduleChanges = function (top, thresholdSynth) {
+    // TODO: Massive refactoring.
+    colin.flickeringLeaf.scheduleChanges = function (top, thresholdSynth, audioSynth, seedSynth) {
         var clipSequence = top.model.clipSequence;
 
         top.scheduler.once(clipSequence[0].duration, function () {
@@ -75,13 +81,38 @@
                 "threshold.end": -1,
                 "threshold.duration": clipSequence[1].duration
             });
+
+            flock.enviro.shared.play();
+            audioSynth.play();
         });
 
         top.scheduler.once(clipSequence[0].duration + clipSequence[1].duration, function () {
+            audioSynth.pause();
+            flock.enviro.shared.stop();
+
+            var lastClipDur = clipSequence[2].duration - 20;
+
             thresholdSynth.set({
                 "threshold.start": -0.0293,
                 "threshold.end": 1.0,
-                "threshold.duration": clipSequence[2].duration - 20
+                "threshold.duration": lastClipDur
+            });
+
+            seedSynth.set({
+                "seedNoise.freq.mul": {
+                    ugen: "flock.ugen.line",
+                    duration: lastClipDur,
+                    start: 20,
+                    end: 15
+                },
+                "seedNoise.freq.add": {
+                    ugen: "flock.ugen.line",
+                    duration: lastClipDur,
+                    start: 40,
+                    end: 15
+                },
+                "seedNoise.freq.freq.mul": 1/30,
+                "seedNoise.freq.freq.add": 1/30
             });
         });
     };
@@ -97,7 +128,7 @@
             ugen: "flock.ugen.line",
             start: -0.0293,
             end: 1.0,
-            duration: (14 * 60)
+            duration: (12 * 60)
         }
     });
 
@@ -108,13 +139,12 @@
         fps: 60,
 
         synthDef: {
-            id: "seedSine",
+            id: "seedNoise",
             ugen: "flock.ugen.lfNoise",
             freq: {
                 ugen: "flock.ugen.triOsc",
                 phase: -0.5,
                 freq: {
-                    // TODO: Slow this down somewhat over the course of the video.
                     ugen: "flock.ugen.lfNoise",
                     options: {
                         interpolation: "linear",
@@ -132,19 +162,71 @@
                 },
                 mul: {
                     ugen: "flock.ugen.line",
-                    duration: (14 * 60) + 53,
+                    duration: 12 * 60,
                     start: 20,
                     end: 7.5
                 },
                 add: {
                     ugen: "flock.ugen.line",
-                    duration: (14 * 60) + 53,
+                    duration: 12 * 60,
                     start: 40,
                     end: 7.5
                 }
             },
             mul: 0.5,
             add: 0.5
+        }
+    });
+
+
+    fluid.defaults("colin.flickeringLeaf.audioSynth", {
+        gradeNames: ["flock.synth", "autoInit"],
+
+        addToEnvironment: false,
+
+        synthDef: {
+            ugen: "flock.ugen.dust",
+            density: {
+                ugen: "flock.ugen.triOsc",
+                phase: -0.5,
+                freq: {
+                    ugen: "flock.ugen.lfNoise",
+                    options: {
+                        interpolation: "linear",
+                    },
+                    mul: {
+                        ugen: "flock.ugen.line",
+                        start: 1/30,
+                        end: 1/60
+                    },
+                    add: {
+                        ugen: "flock.ugen.line",
+                        start: 1/30,
+                        end: 1/60
+                    }
+                },
+                mul: {
+                    ugen: "flock.ugen.line",
+                    duration: (3 * 60) + 5,
+                    start: 20,
+                    end: 7.5
+                },
+                add: {
+                    ugen: "flock.ugen.line",
+                    duration: (3 * 60) + 5,
+                    start: 40,
+                    end: 7.5
+                }
+            },
+
+            mul: {
+                ugen: "flock.ugen.envGen",
+                envelope: {
+                    levels: [0, 0.2, 0.2, 0],
+                    times: [20, (2 * 60) + 25, 20],
+                },
+                gate: 1.0
+            }
         }
     });
 
@@ -156,18 +238,18 @@
             clipSequence: [
                 {
                     url: "videos/1080-h264/1.m4v",
-                    inTime: "00:01:55",
+                    inTime: "00:03:45",
                     outTime: "00:14:53"
                 },
                 {
                     url: "videos/1080-h264/3.m4v",
-                    inTime: "00:00:01",
-                    outTime: "00:03:32"
+                    inTime: "00:00:25",
+                    outTime: "00:03:30"
                 },
                 {
                     url: "videos/1080-h264/4.m4v",
                     inTime: "00:00:01",
-                    outTime: "00:02:47"
+                    outTime: "00:02:40"
                 }
             ]
         },
@@ -187,18 +269,18 @@
             clipSequence: [
                 {
                     url: "videos/1080-h264/2.m4v",
-                    inTime: "00:01:55",
+                    inTime: "00:03:45",
                     outTime: "00:14:53"
                 },
                 {
                     url: "videos/1080-h264/3.m4v",
-                    inTime: "00:00:01",
-                    outTime: "00:03:32"
+                    inTime: "00:00:25",
+                    outTime: "00:03:30"
                 },
                 {
                     url: "videos/1080-h264/5.m4v",
                     inTime: "00:00:01",
-                    outTime: "00:02:47"
+                    outTime: "00:02:40"
                 }
             ]
         },
