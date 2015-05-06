@@ -24,10 +24,10 @@
 
         components: {
             // TODO: Remove when not debugging.
-            frameCounter: {
-                type: "aconite.animationClock.frameCounter",
-                container: "{that}.options.selectors.fpsCounter"
-            },
+            // frameCounter: {
+            //     type: "aconite.animationClock.frameCounter",
+            //     container: "{that}.options.selectors.fpsCounter"
+            // },
 
             glRenderer: {
                 type: "colin.flickeringLeaf.glRenderer"
@@ -90,10 +90,10 @@
             audioSynth.pause();
             flock.enviro.shared.stop();
 
-            var lastClipDur = clipSequence[2].duration - 20;
+            var lastClipDur = clipSequence[2].duration - 5;
 
             thresholdSynth.set({
-                "threshold.start": -0.0293,
+                "threshold.start": 0.0,
                 "threshold.end": 1.0,
                 "threshold.duration": lastClipDur
             });
@@ -126,7 +126,7 @@
         synthDef: {
             id: "threshold",
             ugen: "flock.ugen.line",
-            start: -0.0293,
+            start: -0.031,
             end: 1.0,
             duration: (12 * 60)
         }
@@ -184,48 +184,48 @@
 
         addToEnvironment: false,
 
-        synthDef: {
-            ugen: "flock.ugen.dust",
-            density: {
-                ugen: "flock.ugen.triOsc",
-                phase: -0.5,
-                freq: {
-                    ugen: "flock.ugen.lfNoise",
-                    options: {
-                        interpolation: "linear",
+        "synthDef": {
+            "ugen": "flock.ugen.dust",
+            "density": {
+                "ugen": "flock.ugen.triOsc",
+                "phase": -0.5,
+                "freq": {
+                    "ugen": "flock.ugen.lfNoise",
+                    "options": {
+                        "interpolation": "linear"
                     },
-                    mul: {
-                        ugen: "flock.ugen.line",
-                        start: 1/30,
-                        end: 1/60
+                    "mul": {
+                        "ugen": "flock.ugen.line",
+                        "start": 0.03333333,
+                        "end": 0.01666667
                     },
-                    add: {
-                        ugen: "flock.ugen.line",
-                        start: 1/30,
-                        end: 1/60
+                    "add": {
+                        "ugen": "flock.ugen.line",
+                        "start": 0.03333333,
+                        "end": 0.01666667
                     }
                 },
-                mul: {
-                    ugen: "flock.ugen.line",
-                    duration: (3 * 60) + 5,
-                    start: 20,
-                    end: 7.5
+                "mul": {
+                    "ugen": "flock.ugen.line",
+                    "duration": 185,
+                    "start": 20,
+                    "end": 7.5
                 },
-                add: {
-                    ugen: "flock.ugen.line",
-                    duration: (3 * 60) + 5,
-                    start: 40,
-                    end: 7.5
+                "add": {
+                    "ugen": "flock.ugen.line",
+                    "duration": 185,
+                    "start": 40,
+                    "end": 7.5
                 }
             },
 
-            mul: {
-                ugen: "flock.ugen.envGen",
-                envelope: {
-                    levels: [0, 0.2, 0.2, 0],
-                    times: [20, (2 * 60) + 25, 20],
+            "mul": {
+                "ugen": "flock.ugen.envGen",
+                "envelope": {
+                    "levels": [0, 0.2, 0.2, 0],
+                    "times": [20, 145, 20]
                 },
-                gate: 1.0
+                "gate": 1.0
             }
         }
     });
@@ -268,9 +268,9 @@
         model: {
             clipSequence: [
                 {
-                    url: "videos/1080-h264/2.m4v",
-                    inTime: "00:03:45",
-                    outTime: "00:14:53"
+                    url: "videos/1080-h264/2-no-black.m4v",
+                    inTime: "00:03:44",
+                    outTime: "00:14:52"
                 },
                 {
                     url: "videos/1080-h264/3.m4v",
