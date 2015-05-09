@@ -126,7 +126,7 @@
         synthDef: {
             id: "threshold",
             ugen: "flock.ugen.line",
-            start: -0.031,
+            start: -0.045,
             end: 1.0,
             duration: (12 * 60)
         }
