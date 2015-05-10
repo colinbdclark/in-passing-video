@@ -5,9 +5,3 @@ body {
 .video-container {
     text-align: center;
 }
-
-.aconite-fps-display {
-    z-index: 2;
-    color: #fff;
-    text-align: right;
-}
