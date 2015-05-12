@@ -1,12 +1,15 @@
 (function () {
     "use strict";
 
-    flock.init();
-
     fluid.registerNamespace("colin");
 
     fluid.defaults("colin.flickeringLeaf", {
-        gradeNames: ["aconite.videoSequenceCompositor", "autoInit"],
+        gradeNames: [
+            "aconite.videoSequenceCompositor",
+            "aconite.animator.playable",
+            // "aconite.animator.debugging", // TODO: Remove when not debugging.
+            "autoInit"
+        ],
 
         model: {
             time: Date.now(),
@@ -23,14 +26,15 @@
         },
 
         components: {
-            // TODO: Remove when not debugging.
-            // frameCounter: {
-            //     type: "aconite.animationClock.frameCounter",
-            //     container: "{that}.options.selectors.fpsCounter"
-            // },
-
             glRenderer: {
                 type: "colin.flickeringLeaf.glRenderer"
+            },
+
+            pip: {
+                type: "aconite.pip",
+                options: {
+                    pipOnFrame: 60 * 6,
+                }
             },
 
             top: {
@@ -82,7 +86,6 @@
                 "threshold.duration": clipSequence[1].duration
             });
 
-            flock.enviro.shared.play();
             audioSynth.play();
         });
 
@@ -294,37 +297,17 @@
 
 
     fluid.defaults("colin.flickeringLeaf.glRenderer", {
-        gradeNames: ["aconite.glComponent", "autoInit"],
+        gradeNames: ["aconite.videoCompositor.glRenderer", "autoInit"],
 
         shaders: {
             fragment: "src/shaders/fragmentShader.frag",
-            vertex: "src/shaders/vertexShader.vert"
-        },
-
-        attributes: {
-            aVertexPosition: {
-                type: "vertexAttribArray"
-            }
+            vertex: "bower_components/aconite/src/shaders/stageVertexShader.vert"
         },
 
         uniforms: {
-            topSampler: {
-                type: "i",
-                value: 0
-            },
-            bottomSampler: {
-                type: "i",
-                value: 1
-            },
             sparkThreshold: {
                 type: "f",
                 value: 0.04
-            },
-            textureSize: {
-                type: "f",
-                value: [
-                    "{flickeringLeaf}.dom.stage.0.width", "{flickeringLeaf}.dom.stage.0.height"
-                ]
             },
             time: {
                 type: "f",
