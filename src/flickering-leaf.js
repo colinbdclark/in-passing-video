@@ -240,19 +240,16 @@
         model: {
             clipSequence: [
                 {
-                    url: "videos/1080-h264/1.m4v",
-                    inTime: "00:03:45",
-                    outTime: "00:14:53"
+                    url: "videos/720-h264/1.m4v",
+                    duration: "@expand:aconite.video.parseTimecode(00:11:08)"
                 },
                 {
-                    url: "videos/1080-h264/3.m4v",
-                    inTime: "00:00:25",
-                    outTime: "00:03:30"
+                    url: "videos/720-h264/3.m4v",
+                    duration: "@expand:aconite.video.parseTimecode(00:03:05)"
                 },
                 {
-                    url: "videos/1080-h264/4.m4v",
-                    inTime: "00:00:01",
-                    outTime: "00:02:40"
+                    url: "videos/720-h264/4.m4v",
+                    duration: "@expand:aconite.video.parseTimecode(00:02:39)"
                 }
             ]
         },
@@ -271,19 +268,16 @@
         model: {
             clipSequence: [
                 {
-                    url: "videos/1080-h264/2-no-black.m4v",
-                    inTime: "00:03:44",
-                    outTime: "00:14:52"
+                    url: "videos/720-h264/2.m4v",
+                    duration: "@expand:aconite.video.parseTimecode(00:11:08)"
                 },
                 {
-                    url: "videos/1080-h264/3.m4v",
-                    inTime: "00:00:25",
-                    outTime: "00:03:30"
+                    url: "videos/720-h264/3.m4v",
+                    duration: "@expand:aconite.video.parseTimecode(00:03:05)"
                 },
                 {
-                    url: "videos/1080-h264/5.m4v",
-                    inTime: "00:00:01",
-                    outTime: "00:02:40"
+                    url: "videos/720-h264/5.m4v",
+                    duration: "@expand:aconite.video.parseTimecode(00:02:39)"
                 }
             ]
         },
